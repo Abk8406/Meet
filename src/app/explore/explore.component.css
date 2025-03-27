@@ -1,0 +1,18 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .card {
+    border-radius: 10px;
+    background: #f8f9fa;
+  }
+  
+  h1 {
+    color: #ff9800;
+  }
+  
+  p {
+    color: #555;
+  }
+  

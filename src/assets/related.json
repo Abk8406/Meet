@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "name": "Chicken Burger",
+      "price": 389,
+      "image": "assets/cheese-burger.jpg",
+      "description": "Crispy chicken burger with special sauce.",
+      "status": "In Stock"
+    },
+    {
+      "id": 2,
+      "name": "American burger",
+      "price": 389,
+      "image": "assets/cheese-burger1.jpg",
+      "description": "Crispy chicken burger with special sauce.",
+      "status": "In Stock"
+    },
+    {
+      "id": 3,
+      "name": "Spicy-Style Burger",
+      "price": 389,
+      "image": "assets/cheese-burger2.jpg",
+      "description": "Delicious cheese burger with fresh ingredients.",
+      "status": "Limited Stock"
+    },
+    {
+      "id": 4,
+      "name": "Spicy Burger",
+      "price": 389,
+      "image": "assets/cheese-burger3.jpg",
+      "description": "Crispy chicken burger with special sauce.",
+      "status": "Out of Stock"
+    },
+    {
+      "id": 5,
+      "name": "Classic Burger",
+      "price": 420,
+      "image": "assets/cheese-burger4.jpg",
+      "description": "A classic American-style burger.",
+      "status": "In Stock"
+    },
+    {
+      "id": 6,
+      "name": "Spicy Burger",
+      "price": 399,
+      "image": "assets/cheese-burger.jpg",
+      "description": "Spicy and flavorful burger with jalapeños.",
+      "status": "In Stock"
+    }
+  ]
+  

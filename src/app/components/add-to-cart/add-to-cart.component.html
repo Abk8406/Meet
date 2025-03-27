@@ -1,0 +1,58 @@
+<!-- Navbar with cart notification -->
+<nav class="navbar navbar-light bg-warning px-3">
+  <a class="navbar-brand fw-bold" href="#">🍔 Burger Queen</a>
+  <div class="position-relative">
+    <i class="fa fa-bell text-dark fs-4"></i>
+    <span *ngIf="cart.length > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+      {{ cart.length }}
+    </span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4 col-12">
+        <div class="input-group my-3">
+          <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search">
+          <button class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div *ngFor="let category of categories | search: searchText">
+      <h3 class="category-title">{{ category.category }}</h3>
+      <div class="row g-3">
+        <div class="col-6 col-md-4 col-lg-3 d-flex" *ngFor="let burger of category.items">
+          <div class="burger-card card p-3 shadow-sm w-100">
+            <img [src]="burger.image" class="card-img-top" alt="{{ burger.name }}" (click)="goToDetails(burger.id)">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ burger.name }}</h5>
+              <p class="card-text price">₹{{ burger.price }}</p>
+  
+              <div class="d-flex align-items-center justify-content-around">
+                <button class="btn btn-outline-dark btn-sm quantity-btn" (click)="decreaseQuantity(burger)">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <span class="quantity-text">{{ getQuantity(burger.id) }}</span>
+                <button class="btn btn-outline-dark btn-sm quantity-btn" (click)="increaseQuantity(burger)">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+  
+              <button class="btn btn-warning w-100 mt-2 add-to-cart-btn" (click)="addToCart(burger)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="text-center mt-3">
+    <button *ngIf="cart.length > 0" class="btn btn-success checkout-btn" (click)="goToCart()">Checkout</button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container mt-3" *ngIf="product">
+  <div class="card product-card p-3">
+    <div class="position-relative text-center d-flex justify-content-center align-items-center header-image" >
+      <img [src]="product.image" class="card-img-top img-fluid product-image" alt="{{ product.name }}">
+      <span class="favorite-icon">&hearts;</span>
+    </div>
+
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="card-title">{{ product.name }}</p>
+        <p class="price">₹{{ product.price }}</p>
+      </div>
+      
+      <p class="text-success text-start">{{ product.status }}</p>
+      <p >
+        <i class="fa-solid fa-star color-icons"></i><i class="fa-solid fa-star color-icons"></i><i class="fa-solid fa-star color-icons"></i><i class="fa-solid fa-star color-icons"></i><i class="fa-solid fa-star color-icons"></i>
+      </p>
+
+      <div class="d-flex align-items-center  justify-content-between mt-2">
+        <h3 class="quantity-label">Product Quantity</h3>
+       <div class="quantity-btn">
+        <button class="btn" (click)="decreaseQuantity()">  <i class="fa fa-minus"></i></button>
+        <span class="mx-2">{{ quantity }}</span>
+        <button class="btn" (click)="increaseQuantity()">  <i class="fa fa-plus"></i></button>
+       </div>
+      </div>
+
+      <h5 class="mt-3">Product Details</h5>
+      <p class="product-description">{{ product.description | slice:0:150 }}... <a href="#" style="color: red; text-decoration: none; font-weight: 500;">Read More</a></p>
+    </div>
+  </div>
+
+  <h5 class="mt-4">Related Product</h5>
+  <div class="d-flex justify-content-start gap-3">
+    <div *ngFor="let related of relatedProducts.slice(0, 3)" class="card related-card text-center p-2">
+      <img [src]="related.image" class="related-product-img" alt="{{ related.name }}">
+      <p class="mt-2">{{ related.name }}</p>
+    </div>
+  </div>
+</div>
