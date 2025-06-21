@@ -1,0 +1,107 @@
+<div class="flex h-screen bg-gray-100">
+
+  <!-- Sidebar: Participants & Chat -->
+  <aside class="w-80 bg-white border-r shadow-md flex flex-col">
+    <header class="p-4 text-lg font-semibold bg-blue-600 text-white">Participants</header>
+
+    <div class="flex-1 overflow-y-auto p-2">
+      <div *ngFor="let member of roomMembers" class="flex items-center gap-2 py-2 px-2 rounded hover:bg-gray-100">
+        <span class="text-gray-500" *ngIf="!member.isSharing">👤</span>
+        <span class="text-blue-500" *ngIf="member.isSharing">🖥️</span>
+        <span class="truncate">{{ member.name }}</span>
+        <span *ngIf="member.id === socket?.id" class="text-xs px-2 py-0.5 bg-blue-200 text-blue-800 rounded">You</span>
+      </div>
+    </div>
+
+    <div class="p-2 border-t">
+      <h2 class="font-medium text-gray-700">Chat</h2>
+      <div class="h-40 overflow-y-auto bg-gray-900 text-white rounded p-2 my-2 text-sm">
+        <div *ngFor="let msg of messages"><b>{{ msg.senderName }}:</b> {{ msg.text }}</div>
+      </div>
+      <div class="flex gap-1">
+        <input type="text" [(ngModel)]="chatMessage" class="flex-1 p-2 rounded border text-sm" placeholder="Type message..." />
+        <button (click)="sendMessage()" class="bg-blue-500 text-white px-3 rounded text-sm">Send</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- Top Bar -->
+    <header class="flex items-center justify-between px-4 py-2 bg-blue-600 text-white shadow">
+      <span class="font-semibold text-lg">Room: {{ roomName || roomId }}</span>
+
+      <div class="flex gap-2 items-center">
+        <button (click)="toggleCamera()" class="text-white">{{ isCameraOn ? '🎥 On' : '🎥 Off' }}</button>
+        <button (click)="toggleMic()" class="text-white">{{ isMicOn ? '🎙️ On' : '🎙️ Off' }}</button>
+        <button (click)="stopSharing()" *ngIf="isSharing" class="text-white">🛑 Stop Share</button>
+        <button (click)="leaveRoom()" class="px-3 py-1 bg-red-500 rounded">Leave</button>
+      </div>
+    </header>
+
+    <!-- Room Controls -->
+    <div class="p-4 bg-white border-b flex flex-wrap gap-2 items-center justify-center">
+      <input type="text" #roomInput placeholder="Enter Room ID" class="border rounded px-3 py-2 text-sm w-48" />
+      <button (click)="joinRoom()" class="bg-blue-500 text-white px-4 py-2 rounded text-sm">Join Room</button>
+      <button (click)="createRoomFromUI()" class="border border-blue-500 text-blue-500 px-4 py-2 rounded text-sm">Create Room</button>
+    </div>
+
+    <!-- Videos Area -->
+    <main class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
+
+      <!-- Local Share Screen -->
+      <div *ngIf="isSharing" class="relative bg-black rounded overflow-hidden shadow-lg">
+        <video #screenPreview autoplay muted class="w-full h-64 object-cover"></video>
+        <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">🖥️ You (Sharing)</div>
+      </div>
+
+      <!-- Local Camera -->
+      <div class="relative bg-black rounded overflow-hidden shadow-lg">
+        <video #localCameraPreview autoplay muted class="w-full h-64 object-cover"></video>
+        <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">🎥 You (Camera)</div>
+      </div>
+
+      <!-- Remote Videos -->
+      <ng-container *ngFor="let member of roomMembers">
+        <div *ngIf="member.id !== socket?.id">
+          <!-- Show screen share if sharing, else show camera -->
+          <div class="relative bg-black rounded overflow-hidden shadow-lg" *ngIf="member.isSharing; else showCamera">
+            <video [id]="'remoteScreen-' + member.id" autoplay class="w-full h-64 object-cover"></video>
+            <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+              🖥️ {{ member.name }} (Sharing)
+            </div>
+          </div>
+          <ng-template #showCamera>
+            <div class="relative bg-black rounded overflow-hidden shadow-lg">
+              <video [id]="'remoteCamera-' + member.id" autoplay class="w-full h-64 object-cover"></video>
+              <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                🎥 {{ member.name }} (Camera)
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </ng-container>
+    </main>
+
+    <!-- FAB Controls -->
+    <div class="fixed bottom-4 right-4 flex flex-col gap-3">
+      <button (click)="startSharing()" [disabled]="isSharing" class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700">
+        🖥️
+      </button>
+      <button (click)="toggleCamera()" class="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700">
+        {{ isCameraOn ? '🎥' : '❌' }}
+      </button>
+      <button (click)="toggleMic()" class="bg-yellow-500 text-white p-3 rounded-full shadow-lg hover:bg-yellow-600">
+        {{ isMicOn ? '🎙️' : '❌' }}
+      </button>
+    </div>
+
+    <div *ngFor="let member of roomMembers">
+      {{ member.name }} (id: {{ member.id }}) {{ member.id === socket?.id ? '(You)' : '' }}
+    </div>
+    <div>socket.id: {{ socket?.id }}</div>
+
+  </div>
+
+</div>

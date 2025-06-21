@@ -1,0 +1,105 @@
+.sidenav-container {
+  height: 100vh;
+}
+.sidenav {
+  width: 320px;
+  background: #fafafa;
+  border-right: 1px solid #ddd;
+}
+.sidenav-toolbar {
+  font-weight: bold;
+}
+.participants-list mat-list-item {
+  padding: 6px 12px;
+}
+.participant-name {
+  margin-left: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chat-messages {
+  max-height: 240px;
+  overflow-y: auto;
+  background: #181c22;
+  padding: 8px;
+  color: #fff;
+  border-radius: 6px;
+}
+.chat-input {
+  margin-top: 8px;
+}
+.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.spacer {
+  flex: 1;
+}
+.room-controls-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.room-controls-card {
+  display: flex;
+  gap: 12px;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.room-input-field {
+  min-width: 200px;
+  flex: 1;
+}
+.screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+.screen-preview {
+  width: 90%;
+  max-height: 70vh;
+  background: #000;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.video-tiles {
+  position: fixed;
+  bottom: 100px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+.camera-tile {
+  width: 200px;
+  height: 120px;
+  background: #000;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.action-buttons {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 200;
+}
+@media (max-width: 768px) {
+  .screen-preview {
+    width: 100%;
+    max-height: 50vh;
+  }
+  .camera-tile {
+    width: 140px;
+    height: 90px;
+  }
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "category": "Popular Item",
+    "items": [
+      { "id": 1, "name": "Cheese Burger", "price": 233, "image": "assets/cheese-burger.jpg", "description": "Delicious cheese burger with fresh ingredients.", "status": "In Stock" },
+      { "id": 2, "name": "American burger", "price": 213, "image": "assets/cheese-burger1.jpg", "description": "Crispy chicken burger with special sauce.", "status": "In Stock" },
+      { "id": 3, "name": "Cheese Burger", "price": 233, "image": "assets/cheese-burger.jpg", "description": "Delicious cheese burger with fresh ingredients.", "status": "In Stock" },
+      { "id": 4, "name": "American burger", "price": 213, "image": "assets/cheese-burger1.jpg", "description": "Crispy chicken burger with special sauce.", "status": "In Stock" }
+    ]
+  },
+  {
+    "category": "Special Offers",
+    "items": [
+      { "id": 5, "name": "Spicy Burger", "price": 200, "image": "assets/chicken_new.jfif", "description": "Delicious cheese burger with fresh ingredients.", "status": "Limited Stock" },
+      { "id": 6, "name": "Chicken Burger", "price": 150, "image": "assets/cheese-burger3.jpg", "description": "Crispy chicken burger with special sauce.", "status": "Out of Stock" },
+    
+      { "id": 7, "name": "Spicy Burger", "price": 389, "image": "assets/cheese-burger2.jpg", "description": "Delicious cheese burger with fresh ingredients.", "status": "Limited Stock" },
+      { "id": 8, "name": "Chicken Burger", "price": 246, "image": "assets/cheese-burger3.jpg", "description": "Crispy chicken burger with special sauce.", "status": "Out of Stock" }
+    
+    ]
+  },
+  {
+    "category": "New Arrival Item",
+    "items": [
+      { "id": 9, "name": "Classic Burger", "price": 272, "image": "assets/cheese-burger4.jpg", "description": "A classic American-style burger.", "status": "In Stock" },
+      { "id": 10, "name": "Spicy Burger", "price": 160, "image": "assets/cheese-burger1.jpg", "description": "Spicy and flavorful burger with jalapeños.", "status": "In Stock" },
+      { "id": 11, "name": "Classic Burger", "price": 272, "image": "assets/cheese-burger4.jpg", "description": "A classic American-style burger.", "status": "In Stock" },
+      { "id": 12, "name": "Spicy Burger", "price": 160, "image": "assets/cheese-burger1.jpg", "description": "Spicy and flavorful burger with jalapeños.", "status": "In Stock" }
+    ]
+  }
+]

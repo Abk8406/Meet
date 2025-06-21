@@ -1,0 +1,21 @@
+.container {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .burger-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
