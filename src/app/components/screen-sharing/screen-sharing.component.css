@@ -1,0 +1,112 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e9ecef;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+.room-controls {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.room-controls input {
+  padding: 12px;
+  width: calc(100% - 140px);
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.room-controls button, .controls button {
+  padding: 8px 16px;
+  font-size: 0.9em;
+}
+
+.room-controls button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.room-controls button:hover {
+  background-color: #0056b3;
+}
+
+.video-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #218838;
+}
+
+#connection-status {
+  margin-bottom: 15px;
+  color: #888;
+}
+
+#message {
+  margin-top: 15px;
+  color: #d9534f;
+}
+
+.room-controls input:disabled,
+.room-controls button:disabled,
+.controls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.room-controls input,
+.room-controls button,
+.controls button {
+  transition: background-color 0.3s ease;
+}

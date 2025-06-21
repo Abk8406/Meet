@@ -1,58 +1,107 @@
-<!-- Navbar with cart notification -->
-<nav class="navbar navbar-light bg-warning px-3">
-  <a class="navbar-brand fw-bold" href="#">🍔 Burger Queen</a>
-  <div class="position-relative">
-    <i class="fa fa-bell text-dark fs-4"></i>
-    <span *ngIf="cart.length > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-      {{ cart.length }}
-    </span>
-  </div>
-</nav>
+<div class="flex h-screen bg-gray-100">
 
-<div class="container">
+  <!-- Sidebar: Participants & Chat -->
+  <aside class="w-80 bg-white border-r shadow-md flex flex-col">
+    <header class="p-4 text-lg font-semibold bg-blue-600 text-white">Participants</header>
 
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-4 col-12">
-        <div class="input-group my-3">
-          <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search">
-          <button class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
-        </div>
+    <div class="flex-1 overflow-y-auto p-2">
+      <div *ngFor="let member of roomMembers" class="flex items-center gap-2 py-2 px-2 rounded hover:bg-gray-100">
+        <span class="text-gray-500" *ngIf="!member.isSharing">👤</span>
+        <span class="text-blue-500" *ngIf="member.isSharing">🖥️</span>
+        <span class="truncate">{{ member.name }}</span>
+        <span *ngIf="member.id === socket?.id" class="text-xs px-2 py-0.5 bg-blue-200 text-blue-800 rounded">You</span>
       </div>
     </div>
-  </div>
-  
-  <div class="container">
-    <div *ngFor="let category of categories | search: searchText">
-      <h3 class="category-title">{{ category.category }}</h3>
-      <div class="row g-3">
-        <div class="col-6 col-md-4 col-lg-3 d-flex" *ngFor="let burger of category.items">
-          <div class="burger-card card p-3 shadow-sm w-100">
-            <img [src]="burger.image" class="card-img-top" alt="{{ burger.name }}" (click)="goToDetails(burger.id)">
-            <div class="card-body text-center">
-              <h5 class="card-title">{{ burger.name }}</h5>
-              <p class="card-text price">₹{{ burger.price }}</p>
-  
-              <div class="d-flex align-items-center justify-content-around">
-                <button class="btn btn-outline-dark btn-sm quantity-btn" (click)="decreaseQuantity(burger)">
-                  <i class="fa fa-minus"></i>
-                </button>
-                <span class="quantity-text">{{ getQuantity(burger.id) }}</span>
-                <button class="btn btn-outline-dark btn-sm quantity-btn" (click)="increaseQuantity(burger)">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </div>
-  
-              <button class="btn btn-warning w-100 mt-2 add-to-cart-btn" (click)="addToCart(burger)">Add to Cart</button>
+
+    <div class="p-2 border-t">
+      <h2 class="font-medium text-gray-700">Chat</h2>
+      <div class="h-40 overflow-y-auto bg-gray-900 text-white rounded p-2 my-2 text-sm">
+        <div *ngFor="let msg of messages"><b>{{ msg.senderName }}:</b> {{ msg.text }}</div>
+      </div>
+      <div class="flex gap-1">
+        <input type="text" [(ngModel)]="chatMessage" class="flex-1 p-2 rounded border text-sm" placeholder="Type message..." />
+        <button (click)="sendMessage()" class="bg-blue-500 text-white px-3 rounded text-sm">Send</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- Top Bar -->
+    <header class="flex items-center justify-between px-4 py-2 bg-blue-600 text-white shadow">
+      <span class="font-semibold text-lg">Room: {{ roomName || roomId }}</span>
+
+      <div class="flex gap-2 items-center">
+        <button (click)="toggleCamera()" class="text-white">{{ isCameraOn ? '🎥 On' : '🎥 Off' }}</button>
+        <button (click)="toggleMic()" class="text-white">{{ isMicOn ? '🎙️ On' : '🎙️ Off' }}</button>
+        <button (click)="stopSharing()" *ngIf="isSharing" class="text-white">🛑 Stop Share</button>
+        <button (click)="leaveRoom()" class="px-3 py-1 bg-red-500 rounded">Leave</button>
+      </div>
+    </header>
+
+    <!-- Room Controls -->
+    <div class="p-4 bg-white border-b flex flex-wrap gap-2 items-center justify-center">
+      <input type="text" #roomInput placeholder="Enter Room ID" class="border rounded px-3 py-2 text-sm w-48" />
+      <button (click)="joinRoom()" class="bg-blue-500 text-white px-4 py-2 rounded text-sm">Join Room</button>
+      <button (click)="createRoomFromUI()" class="border border-blue-500 text-blue-500 px-4 py-2 rounded text-sm">Create Room</button>
+    </div>
+
+    <!-- Videos Area -->
+    <main class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
+
+      <!-- Local Share Screen -->
+      <div *ngIf="isSharing" class="relative bg-black rounded overflow-hidden shadow-lg">
+        <video #screenPreview autoplay muted class="w-full h-64 object-cover"></video>
+        <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">🖥️ You (Sharing)</div>
+      </div>
+
+      <!-- Local Camera -->
+      <div class="relative bg-black rounded overflow-hidden shadow-lg">
+        <video #localCameraPreview autoplay muted class="w-full h-64 object-cover"></video>
+        <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">🎥 You (Camera)</div>
+      </div>
+
+      <!-- Remote Videos -->
+      <ng-container *ngFor="let member of roomMembers">
+        <div *ngIf="member.id !== socket?.id">
+          <!-- Show screen share if sharing, else show camera -->
+          <div class="relative bg-black rounded overflow-hidden shadow-lg" *ngIf="member.isSharing; else showCamera">
+            <video [id]="'remoteScreen-' + member.id" autoplay class="w-full h-64 object-cover"></video>
+            <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+              🖥️ {{ member.name }} (Sharing)
             </div>
           </div>
+          <ng-template #showCamera>
+            <div class="relative bg-black rounded overflow-hidden shadow-lg">
+              <video [id]="'remoteCamera-' + member.id" autoplay class="w-full h-64 object-cover"></video>
+              <div class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                🎥 {{ member.name }} (Camera)
+              </div>
+            </div>
+          </ng-template>
         </div>
-      </div>
-    </div>
-  </div>
-  
+      </ng-container>
+    </main>
 
-  <div class="text-center mt-3">
-    <button *ngIf="cart.length > 0" class="btn btn-success checkout-btn" (click)="goToCart()">Checkout</button>
+    <!-- FAB Controls -->
+    <div class="fixed bottom-4 right-4 flex flex-col gap-3">
+      <button (click)="startSharing()" [disabled]="isSharing" class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700">
+        🖥️
+      </button>
+      <button (click)="toggleCamera()" class="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700">
+        {{ isCameraOn ? '🎥' : '❌' }}
+      </button>
+      <button (click)="toggleMic()" class="bg-yellow-500 text-white p-3 rounded-full shadow-lg hover:bg-yellow-600">
+        {{ isMicOn ? '🎙️' : '❌' }}
+      </button>
+    </div>
+
+    <div *ngFor="let member of roomMembers">
+      {{ member.name }} (id: {{ member.id }}) {{ member.id === socket?.id ? '(You)' : '' }}
+    </div>
+    <div>socket.id: {{ socket?.id }}</div>
+
   </div>
+
 </div>

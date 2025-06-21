@@ -6,15 +6,22 @@ import { CartComponent } from './components/cart/cart.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ApplicationComponent } from './application/application.component';
 import { ExploreComponent } from './explore/explore.component';
+import { LoginComponent } from './Auth/login/login.component';
+import { AuthGuard } from './Auth/auth.guard';
+import { RegisterComponent } from './Auth/registration/registration.component';
+import { ScreenSharingComponent } from './components/screen-sharing/screen-sharing.component';
 
 export const routes: Routes = [
-  { path: 'home', component: AddToCartComponent },
-  { path: 'apps', component:  ApplicationComponent },
-  { path: 'explore', component:  ExploreComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'product/:id', component: ProductDetailsComponent }, // Product details page
-  { path: 'profile', component: ProfileComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' } // Default route
+  { path: '', redirectTo: 'login', pathMatch: 'full' } ,// Default route to login
+  { path: 'login', component: LoginComponent } ,// Default route to login
+  { path: 'register', component: RegisterComponent },
+  { path: 'screen-sharing', component: ScreenSharingComponent },
+  { path: 'home', component: AddToCartComponent , canActivate: [AuthGuard] },
+  { path: 'apps', component:  ApplicationComponent,canActivate: [AuthGuard] },
+  { path: 'explore', component:  ExploreComponent,canActivate: [AuthGuard] },
+  { path: 'cart', component: CartComponent ,canActivate: [AuthGuard]},
+  { path: 'product/:id', component: ProductDetailsComponent, canActivate: [AuthGuard]}, // Product details page
+  { path: 'profile', component: ProfileComponent ,canActivate: [AuthGuard]},
 ];
 
 @NgModule({

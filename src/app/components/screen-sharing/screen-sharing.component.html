@@ -1,0 +1,20 @@
+<div class="container text-center mt-5">
+    <h1>Screen Sharing</h1>
+    <div id="connection-status">Disconnected</div>
+
+    <div class="room-controls">
+        <input type="text" id="roomName" placeholder="Enter room name" />
+        <button (click)="createRoom()">Create Room</button>
+        <button (click)="joinRoom()">Join Room</button>
+    </div>
+
+    <div class="video-container">
+        <video id="localVideo" autoplay muted playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+    <div class="controls">
+        <button (click)="startScreenSharing()">Start Sharing</button>
+        <button (click)="stopScreenSharing()">Stop Sharing</button>
+    </div>
+    <div id="message"></div>
+</div> 

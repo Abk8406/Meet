@@ -1,0 +1,39 @@
+<ngx-ui-loader></ngx-ui-loader>
+<body>
+    <div class="container">
+      <div class="login-box">
+        <h2>Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="input-box">
+            <input type="email" formControlName="email" required>
+            <label>Email</label>
+          </div>
+          <div class="input-box">
+            <input type="password" formControlName="password" required>
+            <label>Password</label>
+          </div>
+  
+          <div class="forgot-pass">
+            <a href="#">Forgot your password?</a>
+          </div>
+  
+          <button type="submit" class="btn" [disabled]="loading">
+            {{ loading ? 'Logging in...' : 'Login' }}
+          </button>
+  
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+  
+          <div class="signup-link">
+            <a (click)="navigateToRegister()" style="cursor: pointer;">Signup</a>
+
+          </div>
+        </form>
+      </div>
+  
+      <!-- Background effect spans -->
+      <span *ngFor="let i of [].constructor(50); let idx = index" [ngStyle]="{'--i': idx}"></span>
+    </div>
+  </body>
+  

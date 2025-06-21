@@ -1,0 +1,61 @@
+<div class="register-container">
+    <h2>Register</h2>
+  
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label>Name:</label>
+        <input type="text" formControlName="name">
+        <div *ngIf="registerForm.controls['name'].invalid && registerForm.controls['name'].touched">
+          Name is required (min 3 characters).
+        </div>
+      </div>
+      
+      <div>
+        <label>Email:</label>
+        <div class="row align-items-center">
+          <div class="col-8">
+            <input type="email" formControlName="email" (input)="checkEmailValidity()" />
+          </div>
+          <div class="col-4">
+            <button *ngIf="isEmailValid && !otpSent" type="button" (click)="getOTP()">Get OTP</button>
+            <button *ngIf="otpSent" type="button" (click)="resendOTP()" [disabled]="resendCooldown > 0">Resend OTP <span *ngIf="resendCooldown > 0">({{resendCooldown}}s)</span></button>
+          </div>
+        </div>
+        <div *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched">
+          Enter a valid email.
+        </div>
+        <div *ngIf="otpResentMessage" class="info">{{ otpResentMessage }}</div>
+      </div>
+  
+      <div *ngIf="otpSent">
+        <label>Enter OTP:</label>
+        <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{ length: 6 }"></ng-otp-input>
+      </div>
+      
+      <div>
+        <label>Password:</label>
+        <input type="password" formControlName="password">
+        <div *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+      <div>
+        <label>Role Name:</label>
+        <select class="form-select" formControlName="role_id"> 
+          <option selected hidden >Select Role</option>
+          <option value="1">User</option>
+          <!-- <option   value="2">Customer</option> -->
+        </select>
+      </div>
+      
+  
+      <button type="submit" [disabled]="!verifySuccess" class="mt-2">
+        {{ loading ? 'Registering...' : 'Register' }}
+      </button>
+  
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  
+      <p style="cursor: pointer;">Already have an account? <span (click)="navigateTologin()">Login here</span></p>
+    </form>
+  </div>
+  
