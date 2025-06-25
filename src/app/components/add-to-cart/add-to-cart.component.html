@@ -31,7 +31,9 @@
     <!-- Top Bar -->
     <header class="flex items-center justify-between px-4 py-2 bg-blue-600 text-white shadow">
       <span class="font-semibold text-lg">Room: {{ roomName || roomId }}</span>
-
+      <span class="font-semibold text-lg">
+           Meet 
+      </span>
       <div class="flex gap-2 items-center">
         <button (click)="toggleCamera()" class="text-white">{{ isCameraOn ? '🎥 On' : '🎥 Off' }}</button>
         <button (click)="toggleMic()" class="text-white">{{ isMicOn ? '🎙️ On' : '🎙️ Off' }}</button>

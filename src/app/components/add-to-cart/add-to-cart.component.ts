@@ -23,6 +23,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HostListener } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { environment } from '../../../environments/environment';
+import { Config } from '../../../service/env.config';
 
 
 
@@ -114,7 +115,7 @@ export class AddToCartComponent implements AfterViewInit {
   }
 
   initializeSocket() {
-    this.socket = io('http://localhost:5000', {
+    this.socket = io(Config.BaseEndpoint, {
       path: '/socket.io/',
       transports: ['websocket', 'polling'],
       reconnection: true,

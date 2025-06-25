@@ -105,7 +105,7 @@ export class RegisterComponent {
     this.errorMessage = '';
     
     const userData = this.registerForm.value;
-
+    userData.role_id = parseInt(userData.role_id);
     this.authService.register(userData)
       .then(() => {
         this.loading = false;
