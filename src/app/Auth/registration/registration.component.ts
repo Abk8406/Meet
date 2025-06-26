@@ -4,7 +4,6 @@ import { RouteConfigLoadEnd, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { NgOtpInputComponent } from 'ng-otp-input';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
