@@ -24,8 +24,6 @@ import { HostListener } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Config } from '../../../service/env.config';
 
-
-
 interface RoomMember {
   id: string;
   name: string;
