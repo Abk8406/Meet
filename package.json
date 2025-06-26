@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+     "build": "node --max_old_space_size=4096 ./node_modules/.bin/ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
