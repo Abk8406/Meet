@@ -27,6 +27,7 @@
             ],
             "styles": [
               "src/styles.css",
+              
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
@@ -49,13 +50,12 @@
               "outputHashing": "all"
             },
             "development": {
-                "optimization": false,
-                "extractLicenses": false,
-                "sourceMap": true,
-                "aot": false
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "options": {
