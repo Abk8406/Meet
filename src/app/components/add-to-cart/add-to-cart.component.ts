@@ -22,7 +22,6 @@ import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HostListener } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { environment } from '../../../environments/environment';
 import { Config } from '../../../service/env.config';
 
 
@@ -94,7 +93,6 @@ export class AddToCartComponent implements AfterViewInit {
 
   isDesktop = window.innerWidth > 900;
 
-  private baseURL = environment.baseURL;
 
   constructor(private http: HttpClient, private alert: AlertService) {}
 
@@ -624,11 +622,11 @@ export class AddToCartComponent implements AfterViewInit {
   }
 
   createRoom(roomName: string) {
-    return this.http.post<{ roomId: string, roomName: string }>(`${this.baseURL}/rooms/create`, { roomName });
+    return this.http.post<{ roomId: string, roomName: string }>(`${Config.BaseEndpoint}/rooms/create`, { roomName });
   }
 
   joinRoomApi(roomId: string, userName: string) {
-    return this.http.post<{ message: string }>(`${this.baseURL}/rooms/join`, { roomId, userName });
+    return this.http.post<{ message: string }>(`${Config.BaseEndpoint}/rooms/join`, { roomId, userName });
   }
 
   async createRoomFromUI() {
