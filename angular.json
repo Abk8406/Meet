@@ -49,12 +49,13 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+                "optimization": false,
+                "extractLicenses": false,
+                "sourceMap": true,
+                "aot": false
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "options": {
