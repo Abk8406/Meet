@@ -44,8 +44,6 @@
               "namedChunks": false,
               "aot": false,
               "extractLicenses": false,
-              "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -63,10 +61,8 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "vendorChunk": true,
               "namedChunks": true,
-              "aot": false,
-              "buildOptimizer": false
+              "aot": false
             }
           },
           "defaultConfiguration": "development"
