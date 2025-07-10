@@ -128,3 +128,61 @@ If you encounter issues:
 1. Check the container logs: `docker logs burger-queen-frontend`
 2. Verify the build process: `docker build -t burger-queen-frontend .`
 3. Test the application locally first: `npm run build && npm run start` 
+
+---
+
+## How to Fix
+
+### 1. **Check your Dockerfile `CMD` and `ENTRYPOINT`**
+Your Dockerfile should **not** run `ng serve` or any `ng` command in the final stage.  
+It should only run Nginx:
+
+```dockerfile
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### 2. **Check Railway/Deploy Platform Settings**
+- Make sure your deploy command is **not** set to `ng serve` or `npm start`.
+- It should just start the container (which will run Nginx by default).
+
+### 3. **Check your `package.json`**
+- The `"start"` script is currently `"ng serve"`.  
+- This is **not used in Docker production** (unless your platform tries to run `npm start` by default).
+- If your deploy platform tries to run `npm start`, it will fail.  
+- **Solution:**  
+  - Either set the start script to `"start": "nginx -g 'daemon off;'"` (not recommended, as this is not standard for Node projects),  
+  - Or, configure your deploy platform to just run the container as built.
+
+---
+
+## **Summary Table**
+
+| Stage         | What should happen?         | What should NOT happen?         |
+|---------------|----------------------------|---------------------------------|
+| Build         | `ng build` (in Node)       |                                 |
+| Final/Runtime | Nginx serves static files  | `ng serve`, `ng`, or `npm start`|
+
+---
+
+## **What To Do Next**
+
+1. **Double-check your Dockerfile**:  
+   - The final stage should only run Nginx.
+2. **Check your deploy settings on Railway**:  
+   - Make sure it does **not** try to run `ng serve` or `npm start`.
+   - It should just run the container as built.
+3. **If Railway requires a start command,** set it to:  
+   ```
+   nginx -g 'daemon off;'
+   ```
+   or leave it blank if possible.
+
+---
+
+### If you need to serve the Angular app with Nginx, you should **never** use `ng serve` in production.  
+**`ng serve` is for development only!**
+
+---
+
+**If you show me your Railway deploy settings or how you trigger the container, I can give you the exact fix for your setup.**  
+Let me know if you want to see a sample Railway configuration! 
